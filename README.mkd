@@ -1,0 +1,3 @@
+# Django library
+
+Basic feature sets for my preferred django development.
