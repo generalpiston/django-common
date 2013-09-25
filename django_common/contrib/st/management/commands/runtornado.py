@@ -27,6 +27,16 @@ class Command(BaseCommand):
             dest='static-path',
             default=DEFAULT_STATIC_PATH,
             help='Location of static path'),
+        make_option('--certificate-path',
+            action='store',
+            dest='certificate-path',
+            default=None,
+            help='Location of certificate file for SSL/TLS'),
+        make_option('--private-key-path',
+            action='store',
+            dest='private-key-path',
+            default=None,
+            help='Location of private key file for SSL/TLS'),
     )
     help = 'Start tornado server'
 
@@ -39,6 +49,12 @@ class Command(BaseCommand):
             'static_path': options['static-path'],
             'debug': settings.DEBUG
         })
-        server = tornado.httpserver.HTTPServer(application)
+        kwargs = {}
+        if options['certificate-path'] and options['private-key-path']:
+            kwargs['ssl_options'] = {
+                'certfile': options['certificate-path'],
+                'keyfile': options['private-key-path']
+            }
+        server = tornado.httpserver.HTTPServer(application, **kwargs)
         server.listen(options['port'])
         tornado.ioloop.IOLoop.instance().start()
