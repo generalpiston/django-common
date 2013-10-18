@@ -71,7 +71,7 @@ class DestroyAPIView(mixins.DestroyModelMixin,
 class UpdateAPIView(mixins.UpdateModelMixin,
                     ActionBasedGenericAPIView):
   def get_allowed_actions(self):
-    return ['update']
+    return ['update', 'patch']
 
   def post(self, request, *args, **kwargs):
     if request.GET['action'] == 'update':
