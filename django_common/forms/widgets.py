@@ -1,15 +1,10 @@
 import re, copy
 from datetime import datetime, date
 
-from django import forms
-from django.conf import settings
-from django.forms.widgets import Widget, Select, TextInput, DateInput, MultiWidget
-from django.forms.util import flatatt
-from django.template.loader import render_to_string
+from django.forms.widgets import Widget, Select, DateInput, MultiWidget, Input
 from django.utils import formats
 from django.utils.dates import MONTHS
 from django.utils.safestring import mark_safe
-from django.utils.text import truncate_words
 
 # Attempt to match many time formats:
 # Example: "12:34:56 P.M."  matches:
@@ -472,7 +467,7 @@ class USPhoneNumberWidget(Input):
     """
     input_type = 'phone'
 
-    def render(name, value, attrs=None):
+    def render(self, name, value, attrs=None):
         """
         Removes international representation
         """
