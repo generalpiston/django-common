@@ -11,7 +11,7 @@ import tornado.web
 import tornado.wsgi
 
 
-DEFAULT_STATIC_PATH = os.path.join(os.getcwd(), 'static')
+DEFAULT_STATIC_PATH = os.path.join(os.getcwd(), 'static/prod')
 
 
 class Command(BaseCommand):
