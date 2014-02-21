@@ -43,10 +43,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
         container = tornado.wsgi.WSGIContainer(get_wsgi_application())
-        application = tornado.web.Application([
-            ('.*', tornado.web.FallbackHandler, dict(fallback=container))
-        ], **{
-            'static_path': options['static-path'],
+        handlers = [
+            ('/(robots\.txt)', tornado.web.StaticFileHandler, {'path': options['static-path'] + '/robots.txt'}),
+            ('/static/(.*)', tornado.web.StaticFileHandler, {'path': options['static-path']}),
+            ('/', tornado.web.FallbackHandler, dict(fallback=container))
+        ]
+        application = tornado.web.Application(handlers, **{
             'debug': settings.DEBUG
         })
         kwargs = {}
