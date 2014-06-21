@@ -46,7 +46,7 @@ class Command(BaseCommand):
         handlers = [
             ('/(robots\.txt)', tornado.web.StaticFileHandler, {'path': options['static-path'] + '/robots.txt'}),
             ('/static/(.*)', tornado.web.StaticFileHandler, {'path': options['static-path']}),
-            ('/', tornado.web.FallbackHandler, dict(fallback=container))
+            ('.*', tornado.web.FallbackHandler, dict(fallback=container))
         ]
         application = tornado.web.Application(handlers, **{
             'debug': settings.DEBUG
